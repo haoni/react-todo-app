@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
+import PageHeader from '../template/pageHeader'
 
 class About extends Component {
 
     render(){
         return (
-           <h1>About</h1>
+           <PageHeader name="Sobre" small="Informações" />
         );
     }
 }
