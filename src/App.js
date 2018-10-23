@@ -1,22 +1,28 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+
 import './App.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css'
 
-// import Todo from  './todo/todo.js' 
-// import About from './about/about.js'
+import Todo from  './todo/todo.js' 
+import About from './about/about.js'
 import Menu from './template/menu.js'
-import Routes from './routes.js'
 
 class App extends Component {
   render() {
     return (
-      <div className="container">       
-        <Menu/>
-        <Routes/>          
-      </div>
+      <Router>
+        <React.Fragment>
+          <Menu/>
+          <div className="container">       
+            <Route exact path="/" component={Todo} />
+            <Route path="/todos" component={Todo} />
+            <Route path="/about" component={About} />
+          </div>
+        </React.Fragment>
+      </Router>
     );
   }
 }
