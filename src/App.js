@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import './App.css';
 
@@ -27,4 +27,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App; 
