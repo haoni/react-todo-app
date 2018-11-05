@@ -9,8 +9,6 @@ class TodoForm extends React.Component {
     }
 
     render(){
-        console.log('TodoForm: Eu!')
-
         return (
             <div role="form" className="todoForm">
                 <Grid cols='12 9 10' >
