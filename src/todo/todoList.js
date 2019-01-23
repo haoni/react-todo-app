@@ -1,6 +1,6 @@
 import React from 'react'
-import { Table, ButtonToolbar } from 'react-bootstrap'
-import IconButton from '../template/iconButton';
+import { Table, ButtonToolbar, Button, ButtonGroup } from 'react-bootstrap'
+// import IconButton from '../template/iconButton';
 
 class TodoList extends React.Component{
     
@@ -13,13 +13,11 @@ class TodoList extends React.Component{
         return (
             this.props.list.map(todo => (
                 <tr key={todo._id}>
-                    <td className={todo.done? "col-md-6 markedAsDone": "col-md-7"}  >{todo.description}</td>
-                    <td className="col-md-6">
-                    <ButtonToolbar>
-                        <IconButton style="success" icon="check" onClick={() => this.props.doneOnClick(todo)}></IconButton>
-                        <IconButton style="warning" icon="undo" onClick={() => this.props.undoneOnClick(todo)}></IconButton>
-                        <IconButton style="danger" icon="trash" onClick={() => this.props.deleteOnClick(todo._id)}></IconButton>
-                    </ButtonToolbar>
+                    <td className={todo.done? "markedAsDone" : ""}  >{todo.description}</td>
+                    <td>
+                        <Button style={{display: !todo.done?"inline-block":"none"}} bsStyle="success" onClick={() => this.props.doneOnClick(todo)}><i className="fa fa-check"></i></Button>
+                        <Button style={{display: todo.done?"inline-block":"none"}} bsStyle="warning" onClick={() => this.props.undoneOnClick(todo)}><i className="fa fa-reply"></i></Button>
+                        <Button style={{display: todo.done?"inline-block":"none"}} bsStyle="danger"  onClick={() => this.props.deleteOnClick(todo._id)}><i className="fa fa-trash" /></Button>
                     </td>
                 </tr>
             ))
@@ -31,8 +29,8 @@ class TodoList extends React.Component{
             <Table responsive>
                 <thead>
                     <tr>
-                        <th className="col-md-6">Decrição</th>
-                        <th className="col-md-6">Ações</th>
+                        <th>Decrição</th>
+                        <th width="15%">Ações</th>
                     </tr>
                 </thead>
                 <tbody>

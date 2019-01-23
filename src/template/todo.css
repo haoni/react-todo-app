@@ -6,3 +6,14 @@
     text-decoration: red line-through;
     color: darkgrey;
 }
+
+.btn-toolbar-custon {
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: flex-start;
+} 
+
+.display-nome {
+    display: none;
+
+}

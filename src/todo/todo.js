@@ -14,32 +14,27 @@ const URL= "http://localhost:3003/api/todos"
         this.state = { loading: false, description: '', list: [] }
 
         this.handleAdd = this.handleAdd.bind(this)
+        this.searchOnClick = this.searchOnClick.bind(this)
         this.tarefaOnChange = this.tarefaOnChange.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
         this.handleUndone = this.handleUndone.bind(this)
         this.handleDone = this.handleDone.bind(this)
+        this.clearOnClick = this.clearOnClick.bind(this)
 
-        this.refresh()
+        this.refresh('')
      }
 
      tarefaOnChange(e) {
         this.setState({description: e.target.value })
      }
 
-    async refresh(){
-         try {
-
-            //Tanto o bloco comentado quanto o bloco de código 
-            // abaixo não comentado não estão limpando o campo description.
-
-            // const response = await axios.get(`${URL}?sort=-creatdAt`)
-            //     this.setState({description: '', list: response.data })
-
-            await axios.get(`${URL}?sort=-creatdAt`).then(
-                response => this.setState({description: '', list: response.data })
-                )
-            
-        } catch(err ){
+    async refresh(description = ''){
+        try {
+            const search = description ? `&description__regex=/${description}/` : ''
+            await axios.get(`${URL}?sort=-creatdAt${search}`).then(
+                response => this.setState({description, list: response.data })
+            )
+        } catch(err ) {
             console.Log('Error:')
             console.error(err)
         } finally {
@@ -52,7 +47,7 @@ const URL= "http://localhost:3003/api/todos"
         this.setState({loading: true})
         try {
             await axios.post(URL, { description: this.state.description })
-            this.refresh()
+            this.refresh('')
         } catch(err ){
             console.error(err)
         } finally {
@@ -65,7 +60,7 @@ const URL= "http://localhost:3003/api/todos"
 
         try {
             await axios.delete(`${URL}/${id}`)
-            this.refresh()
+            this.refresh('')
         }
         catch(exception){
             console.error(exception)
@@ -80,7 +75,7 @@ const URL= "http://localhost:3003/api/todos"
 
         try {
             await axios.put(`${URL}/${todo._id}`, {...todo, done: false})
-            this.refresh()
+            this.refresh(this.state.description)
         }
         catch(exception) {
             console.error(exception)
@@ -95,7 +90,35 @@ const URL= "http://localhost:3003/api/todos"
 
         try {
             await axios.put(`${URL}/${todo._id}`, {...todo, done: true})
-            this.refresh()
+            this.refresh(this.state.description)
+        }
+        catch(exception) {
+            console.error(exception)
+        }
+        finally {
+            this.setState({loading: false})
+        }
+    }
+
+    async searchOnClick() {
+        this.setState({loading: true})
+
+        try {
+            this.refresh(this.state.description)
+        }
+        catch(exception) {
+            console.error(exception)
+        }
+        finally {
+            this.setState({loading: false})
+        }
+    }
+
+    async clearOnClick(){
+        this.setState({loading: true})
+
+        try {
+            this.refresh('')
         }
         catch(exception) {
             console.error(exception)
@@ -110,7 +133,13 @@ const URL= "http://localhost:3003/api/todos"
             <div>
                 {this.state.loading?"Carregando":null}
                 <PageHeader name="Tarefas" small="Cadastro" />
-                <TodoForm handleAdd={this.handleAdd} description={this.props.description} tarefaOnChange={this.tarefaOnChange}/>
+                <TodoForm 
+                    handleAdd={this.handleAdd} 
+                    description={this.state.description} 
+                    tarefaOnChange={this.tarefaOnChange} 
+                    handleSearch={this.searchOnClick}
+                    handleClear={this.clearOnClick}
+                />
                 <TodoList 
                     list={this.state.list} 
                     deleteOnClick={this.handleDelete} 
@@ -121,11 +150,5 @@ const URL= "http://localhost:3003/api/todos"
          );
      }
  }
-
- /*
-            <IconButton style="success" icon="check" onClick={() => this.props.doneOnClick(todo)}></IconButton>
-            <IconButton style="warning" icon="undo" onClick={() => this.props.undoneOnClick(todo)}></IconButton>
-            <IconButton style="danger" icon="trash" onClick={() => this.props.deleteOnClick(todo._id)}></IconButton>
- */
 
  export default Todo

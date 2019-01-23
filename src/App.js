@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import './App.css';
-import './template/todo.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css'
+
+import './template/todo.css';
 
 import Todo from  './todo/todo.js' 
 import About from './about/about.js'

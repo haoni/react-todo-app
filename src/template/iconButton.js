@@ -1,7 +1,7 @@
 import React from 'react'
 import If from "./if"
 
-import {Button, ButtonToolbar} from 'react-bootstrap'
+import {Button} from 'react-bootstrap'
 
 class IconButton extends React.Component {
 
